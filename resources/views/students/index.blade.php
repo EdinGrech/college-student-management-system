@@ -11,6 +11,44 @@
 </div>
 
 <div class="card mb-4">
+    <div class="card-header bg-light">
+        <h5 class="mb-0">Filter and Sort</h5>
+    </div>
+    <div class="card-body">
+        <form action="{{ route('students.index') }}" method="GET" class="row g-3">
+            <div class="col-md-4">
+                <label for="college_id" class="form-label">Filter by College</label>
+                <select name="college_id" id="college_id" class="form-select">
+                    <option value="">All Colleges</option>
+                    @foreach($colleges as $college)
+                        <option value="{{ $college->id }}" {{ request('college_id') == $college->id ? 'selected' : '' }}>
+                            {{ $college->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="sort" class="form-label">Sort By</label>
+                <select name="sort" id="sort" class="form-select">
+                    <option value="name" {{ request('sort') == 'name' || !request('sort') ? 'selected' : '' }}>Name</option>
+                    <option value="email" {{ request('sort') == 'email' ? 'selected' : '' }}>Email</option>
+                    <option value="dob" {{ request('sort') == 'dob' ? 'selected' : '' }}>Date of Birth</option>
+                    <option value="created_at" {{ request('sort') == 'created_at' ? 'selected' : '' }}>Date Created</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="direction" class="form-label">Direction</label>
+                <select name="direction" id="direction" class="form-select">
+                    <option value="asc" {{ request('direction') == 'asc' || !request('direction') ? 'selected' : '' }}>Ascending</option>
+                    <option value="desc" {{ request('direction') == 'desc' ? 'selected' : '' }}>Descending</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Apply</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <div class="card">
     <div class="card-body">
