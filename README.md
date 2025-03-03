@@ -30,7 +30,7 @@ GRANT ALL PRIVILEGES ON college_student_management_system.* TO 'laravel_user'@'l
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
     DB_PORT=3306
-    DB_DATABASE=computer_girls
+    DB_DATABASE=college_student_management_system
     DB_USERNAME=laravel_user
     DB_PASSWORD=password
 ```
