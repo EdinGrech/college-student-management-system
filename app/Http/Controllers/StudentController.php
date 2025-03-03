@@ -69,7 +69,7 @@ class StudentController extends Controller
     public function edit(Student $student)
     {
         $colleges = College::orderBy('name')->get();
-        return view('students.edit', compact('student', 'colleges'));
+        return view('students.update', compact('student', 'colleges'));
     }
 
     /**
@@ -80,7 +80,7 @@ class StudentController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:students,email,'.$student->id.'|max:255',
-            'phone' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:20',
+            'phone' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:7|max:11',
             'dob' => 'required|date|before:today',
             'college_id' => 'required|exists:colleges,id',
         ]);

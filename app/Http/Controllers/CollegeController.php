@@ -45,7 +45,7 @@ class CollegeController extends Controller
      */
     public function edit(College $college)
     {
-        return view('colleges.edit', compact('college'));
+        return view('colleges.update', compact('college'));
     }
 
     /**
