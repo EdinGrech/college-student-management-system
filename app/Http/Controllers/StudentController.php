@@ -15,13 +15,22 @@ class StudentController extends Controller
     {
         $query = Student::with('college');
         
-        // Filter by college if college_id is provided
-        if ($request->has('college_id')) {
+        if ($request->has('college_id') && $request->college_id) {
             $query->where('college_id', $request->college_id);
         }
         
-        $students = $query->get();
-        $colleges = College::all(); // For the filter dropdown
+        $sortField = $request->input('sort', 'name');
+        $sortDirection = $request->input('direction', 'asc');
+        
+        $allowedSortFields = ['name', 'email', 'dob', 'created_at'];
+        if (in_array($sortField, $allowedSortFields)) {
+            $query->orderBy($sortField, $sortDirection);
+        } else {
+            $query->orderBy('name', 'asc');
+        }
+        
+        $students = $query->paginate(15);
+        $colleges = College::orderBy('name')->get(); //? For the filter dropdown
         
         return view('students.index', compact('students', 'colleges'));
     }
@@ -31,7 +40,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        $colleges = College::all();
+        $colleges = College::orderBy('name')->get();
         return view('students.create', compact('colleges'));
     }
 
@@ -41,9 +50,9 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:students,email',
-            'phone' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:students,email|max:255',
+            'phone' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:8|max:11',
             'dob' => 'required|date|before:today',
             'college_id' => 'required|exists:colleges,id',
         ]);
@@ -59,7 +68,7 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        $colleges = College::all();
+        $colleges = College::orderBy('name')->get();
         return view('students.edit', compact('student', 'colleges'));
     }
 
@@ -69,9 +78,9 @@ class StudentController extends Controller
     public function update(Request $request, Student $student)
     {
         $validated = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:students,email,'.$student->id,
-            'phone' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:students,email,'.$student->id.'|max:255',
+            'phone' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:20',
             'dob' => 'required|date|before:today',
             'college_id' => 'required|exists:colleges,id',
         ]);

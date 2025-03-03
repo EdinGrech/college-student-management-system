@@ -12,7 +12,7 @@ class CollegeController extends Controller
      */
     public function index()
     {
-        $colleges = College::all();
+        $colleges = College::orderBy('name')->paginate(10);
         return view('colleges.index', compact('colleges'));
     }
 
@@ -62,5 +62,15 @@ class CollegeController extends Controller
 
         return redirect()->route('colleges.index')
             ->with('success', 'College updated successfully.');
+    }
+
+    /**
+     * Count students in a college.
+     */
+    public function studentCount(College $college)
+    {
+        return response()->json([
+            'count' => $college->students()->count()
+        ]);
     }
 }
