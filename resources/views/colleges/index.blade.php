@@ -38,6 +38,13 @@
                                     <a href="{{ route('colleges.edit', $college) }}" class="btn btn-sm btn-warning btn-action">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
+                                    <form action="{{ route('colleges.destroy', $college) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this college?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger btn-action">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

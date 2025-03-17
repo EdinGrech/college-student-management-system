@@ -65,6 +65,15 @@ class CollegeController extends Controller
     }
 
     /**
+     * Delete college and students related.
+     */
+    public function destroy(College $college)
+    {
+        $college->delete();
+        return redirect()->route('colleges.index')->with('success', 'College deleted successfully.');
+    }
+
+    /**
      * Count students in a college.
      */
     public function studentCount(College $college)
