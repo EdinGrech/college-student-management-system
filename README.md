@@ -56,3 +56,13 @@ php artisan make:model Collage -m -c
 ```bash
 php artisan make:model Student -m -c
 ```
+
+## DB Debugging Commands
+
+```bash
+use college_student_management_system;
+
+show tables;
+
+SHOW COLUMNS FROM students;
+```
